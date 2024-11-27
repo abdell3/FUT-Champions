@@ -1,5 +1,5 @@
 *{
-
+ color: white;
 }
 
 body{
@@ -47,17 +47,71 @@ div {
     display: block;
     unicode-bidi: isolate;
 }
-/* .squad_builder{
+.squad_builder{
     display: grid;
-    grid-template-columns: repeat(5,1fr); /* Three columns */
-    grid-template-rows: repeat(5,1fr);/* Auto-sized rows */
-    grid-template-areas:
+    height: 650px;
+    
+    grid-template-columns: repeat(7,1fr); /* Three columns */
+    grid-template-rows: repeat(7,1fr);/* Auto-sized rows */
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-areas: 
      "... ... st ... ..."
      "lw ... ... ... rw"
      "... cm cm cm ..."
      "lb cb ... cb rb"
-     "... ... gk ... ...";
-} */
+     "... ... gk ... ..."; 
+} 
 .player1{
-    grid-area: myArea;
+    grid-area: 7/4/8/5;
 }
+.player2{
+    grid-area: 6/1/7/2;
+}
+.player3{
+    grid-area: 6/3/7/4;
+}
+.player4{
+    grid-area: 6/5/7/6;
+}
+.player5{
+    grid-area: 6/7/7/8;
+}
+.player6{
+    grid-area: 4/2/5/3;
+}
+.player7{
+    grid-area: 4/4/5/5;
+}
+.player8{
+    grid-area: 4/6/5/7;
+}
+.player9{
+    grid-area: 2/2/3/3;
+}
+.player10{
+    grid-area: 2/4/3/5;
+}
+.player11{
+    grid-area: 2/6/3/7;
+}
+
+.players-container{
+
+    flex-wrap: wrap;
+    display: none;
+    width: 70%;
+}
+.players-contain{
+    color: #FFD972;
+    background: url(./images/badge_ballon_dor.webp) no-repeat;
+    height: 400px;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
