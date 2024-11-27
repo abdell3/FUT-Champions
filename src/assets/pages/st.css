@@ -1,0 +1,63 @@
+*{
+
+}
+
+body{
+    
+    background-size: 100% auto;
+    background-position: top 70px;
+    background-repeat: no-repeat;
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    display: block;
+
+}
+:root{
+    --tw-gradient-from: #3b82f6
+
+}
+
+
+
+.p-4 {
+    padding: 1rem;
+}
+.to-white {
+    --tw-gradient-to: #fff var(--tw-gradient-to-position);
+}
+.from-blue-500 {
+    --tw-gradient-from: #3b82f6 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.bg-gradient-to-b {
+    background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+.min-h-screen {
+    min-height: 100vh;
+}
+* {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e5e7eb;
+}
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+/* .squad_builder{
+    display: grid;
+    grid-template-columns: repeat(5,1fr); /* Three columns */
+    grid-template-rows: repeat(5,1fr);/* Auto-sized rows */
+    grid-template-areas:
+     "... ... st ... ..."
+     "lw ... ... ... rw"
+     "... cm cm cm ..."
+     "lb cb ... cb rb"
+     "... ... gk ... ...";
+} */
+.player1{
+    grid-area: myArea;
+}
