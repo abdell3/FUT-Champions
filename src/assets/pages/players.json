@@ -1,7 +1,7 @@
 {
     "players": [
       {
-        "name": "Lionel Messi",
+        "name": "Messi",
         "photo": "https://cdn.sofifa.net/players/158/023/25_120.png",
         "position": "RW",
         "nationality": "Argentina",
@@ -17,7 +17,7 @@
         "physical": 65
       },
       {
-        "name": "Cristiano Ronaldo",
+        "name": "C.Ronaldo",
         "photo": "https://cdn.sofifa.net/players/020/801/25_120.png",
         "position": "ST",
         "nationality": "Portugal",
@@ -33,7 +33,7 @@
         "physical": 77
       },
       {
-        "name": "Kevin De Bruyne",
+        "name":"De Bruyne",
         "photo": "https://cdn.sofifa.net/players/192/985/25_120.png",
         "position": "CM",
         "nationality": "Belgium",
@@ -49,7 +49,7 @@
         "physical": 78
       },
       {
-        "name": "Kylian Mbappé",
+        "name": "Mbappé",
         "photo": "https://cdn.sofifa.net/players/231/747/25_120.png",
         "position": "ST",
         "nationality": "France",
@@ -65,7 +65,7 @@
         "physical": 77
       },
       {
-        "name": "Virgil van Dijk",
+        "name": "Van Dijk",
         "photo": "https://cdn.sofifa.net/players/203/376/25_120.png",
         "position": "CB",
         "nationality": "Netherlands",
@@ -81,7 +81,7 @@
         "physical": 86
       },
       {
-        "name": "Antonio Rudiger",
+        "name": "Rudiger",
         "photo": "https://cdn.sofifa.net/players/205/452/25_120.png",
         "position": "CB",
         "nationality": "Germany",
@@ -97,7 +97,7 @@
         "physical": 86
       },
       {
-        "name": "Neymar Jr",
+        "name": "Neymar",
         "photo": "https://cdn.sofifa.net/players/190/871/25_120.png",
         "position": "LW",
         "nationality": "Brazil",
@@ -113,7 +113,7 @@
         "physical": 61
       },
       {
-        "name": "Mohamed Salah",
+        "name": "Salah",
         "photo": "https://cdn.sofifa.net/players/192/985/25_120.png",
         "position": "RW",
         "nationality": "Egypt",
@@ -129,7 +129,7 @@
         "physical": 75
       },
       {
-        "name": "Joshua Kimmich",
+        "name": "Kimmich",
         "photo": "https://cdn.sofifa.net/players/212/622/25_120.png",
         "position": "CM",
         "nationality": "Germany",
@@ -145,7 +145,7 @@
         "physical": 81
       },
       {
-        "name": "Jan Oblak",
+        "name":"Oblak",
         "photo": "https://cdn.sofifa.net/players/200/389/25_120.png",
         "position": "GK",
         "nationality": "Slovenia",
@@ -161,7 +161,7 @@
         "positioning": 88
       },
       {
-        "name": "Luka Modrić",
+        "name":"Modrić",
         "photo": "https://cdn.sofifa.net/players/177/003/25_120.png",
         "position": "CM",
         "nationality": "Croatia",
@@ -177,7 +177,7 @@
         "physical": 65
       },
       {
-        "name": "Vinicius Junior",
+        "name": "Vinicius",
         "photo": "https://cdn.sofifa.net/players/238/794/25_120.png",
         "position": "LW",
         "nationality": "Brazil",
@@ -193,7 +193,7 @@
         "physical": 61
       },
       {
-        "name": "Brahim Diáz",
+        "name": "Brahim",
         "photo": "https://cdn.sofifa.net/players/231/410/25_120.png",
         "position": "LW",
         "nationality": "Morocco",
@@ -209,7 +209,7 @@
         "physical": 56
       },
       {
-        "name": "Karim Benzema",
+        "name": "Benzema",
         "photo": "https://cdn.sofifa.net/players/165/153/25_120.png",
         "position": "ST",
         "nationality": "France",
@@ -225,7 +225,7 @@
         "physical": 78
       },
       {
-        "name": "Erling Haaland",
+        "name": "Haaland",
         "photo": "https://cdn.sofifa.net/players/239/085/25_120.png",
         "position": "ST",
         "nationality": "Norway",
@@ -241,7 +241,7 @@
         "physical": 88
       },
       {
-        "name": "N'Golo Kanté",
+        "name": "Kanté",
         "photo": "https://cdn.sofifa.net/players/215/914/25_120.png",
         "position": "CDM",
         "nationality": "France",
@@ -257,7 +257,7 @@
         "physical": 82
       },
       {
-        "name": "Alphonso Davies",
+        "name": "Davies",
         "photo": "https://cdn.sofifa.net/players/234/396/25_120.png",
         "position": "LB",
         "nationality": "Canada",
@@ -273,7 +273,7 @@
         "physical": 77
       },
       {
-        "name": "Yassine Bounou",
+        "name": "Bounou",
         "photo": "https://cdn.sofifa.net/players/209/981/25_120.png",
         "position": "GK",
         "nationality": "Morocco",
@@ -289,7 +289,7 @@
         "positioning": 83
       },
       {
-        "name": "Bruno Fernandes",
+        "name": "Fernandes",
         "photo": "https://cdn.sofifa.net/players/212/198/25_120.png",
         "position": "CM",
         "nationality": "Portugal",
@@ -305,7 +305,7 @@
         "physical": 77
       },
       {
-        "name": "Jadon Sancho",
+        "name": "Sancho",
         "photo": "https://cdn.sofifa.net/players/233/049/25_120.png",
         "position": "LW",
         "nationality": "England",
@@ -321,7 +321,7 @@
         "physical": 63
       },
       {
-        "name": "Trent Alexander-Arnold",
+        "name": "A.Arnold",
         "photo": "https://cdn.sofifa.net/players/231/281/25_120.png",
         "position": "RB",
         "nationality": "England",
@@ -336,7 +336,7 @@
         "physical": 71
       },
       {
-        "name": "Achraf Hakimi",
+        "name": "Hakimi",
         "photo": "https://cdn.sofifa.net/players/235/212/25_120.png",
         "position": "RB",
         "nationality": "Morocco",
@@ -352,7 +352,7 @@
         "physical": 78
       },
       {
-        "name": "Youssef En-Nesyri",
+        "name": "En-Nesyri",
         "photo": "https://cdn.sofifa.net/players/235/410/25_120.png",
         "position": "ST",
         "nationality": "Morocco",
@@ -368,7 +368,7 @@
         "physical": 80
       },
       {
-        "name": "Noussair Mazraoui",
+        "name": "Mazraoui",
         "photo": "https://cdn.sofifa.net/players/236/401/25_120.png",
         "position": "LB",
         "nationality": "Morocco",
@@ -384,7 +384,7 @@
         "physical": 71
       },
       {
-        "name": "Ismael Saibari",
+        "name": "Saibari",
         "photo": "https://cdn.sofifa.net/players/259/480/25_120.png",
         "position": "CM",
         "nationality": "Morocco",
@@ -400,7 +400,7 @@
         "physical": 84
       },
       {
-        "name": "Gianluigi Donnarumma",
+        "name": "Donnarumma",
         "photo": "https://cdn.sofifa.net/players/230/621/25_120.png",
         "position": "GK",
         "nationality": "Italy",

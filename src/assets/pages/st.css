@@ -111,7 +111,7 @@ div {
     background-repeat: no-repeat;
     font-family: "Oswald", sans-serif;
     font-optical-sizing: auto;
-    font-weight: weight;
+    font-weight: normal;
     font-style: normal;
 }
 .card .first-section{
@@ -124,8 +124,8 @@ div {
 
 
 .card .image-name img{
-    height: 70px;
-    width:70px;
+    height: 60px;
+    width:60px;
     padding-top: 10px;
 }
 
@@ -146,7 +146,7 @@ div {
     display: flex;
     flex-direction: column;
     gap:2px;
-    padding-top: 15px;""
+    padding-top: 15px;
 }
 
 .card .first-section .position-rating img{
@@ -161,8 +161,8 @@ div {
     padding-left: 15px;
 }
 .nom{
-    padding-left: 9px;
-}
+    padding-left: 5px;
+} 
 .card .first-section .position-rating img{
     padding-left:14px ;
     padding-bottom: 15px;
@@ -194,4 +194,97 @@ div {
     padding-left: 15px;
     padding-top: 30px;
 
+}
+
+/* For small screens, like mobile (max-width: 600px) */
+@media (max-width: 600px) {
+    .card {
+        width: 100%; /* Full width for small screens */
+        height: auto; /* Auto height */
+        grid-template-columns: 1fr; /* 1 column layout for mobile */
+    }
+
+    .card .first-section {
+        height: auto; /* Adjust the height of the first section */
+    }
+
+    .card .image-name img {
+        width: 50px; /* Smaller image size on mobile */
+        height: 50px;
+    }
+
+    .card .first-section .position-rating {
+        flex-direction: row; /* Position ratings side-by-side on mobile */
+        padding-top: 10px;
+    }
+
+    .card .first-section .position-rating h1 {
+        font-size: 12px; /* Adjust font size for smaller screens */
+    }
+
+    .card .informations {
+        grid-template-columns: 1fr; /* Stack the information section on top */
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+    .card .informations h1 {
+        font-size: 8px; /* Smaller text size */
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
+    .card {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    .card .image-name img {
+        width: 55px; 
+        height: 55px;
+    }
+
+    .card .first-section .position-rating h1 {
+        font-size: 14px; 
+    }
+
+    .card .informations {
+        grid-template-columns: repeat(2, 1fr);
+        padding-left: 15px;
+    }
+
+    .card .informations h1 {
+        font-size: 9px;
+    }
+}
+
+.container {
+    text-align: center;
+}
+
+/* Style du bouton */
+.btn {
+    background-color: #4CAF50; /* Couleur initiale du bouton */
+    color: white; /* Texte blanc */
+    border: none;
+    padding: 15px 32px; /* Taille du bouton */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px; /* Coins arrondis */
+    transition: background-color 0.3s ease;
+}
+
+/* Effet au survol */
+.btn:hover {
+    background-color: #45a049;
+}
+
+/* Message d'info après avoir cliqué sur le bouton */
+#message {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
 }
