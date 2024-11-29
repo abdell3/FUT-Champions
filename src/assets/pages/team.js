@@ -1,53 +1,67 @@
 // drag and drop
 
-
 let drag = null;
 // let divs = Document.querySelectorAll('.parent1.div1 .parent1.div2 .parent1.div3 .parent1.div4 .parent1.div5 .parent1.div6 .parent1.div7 .parent1.div 8 .parent1.div9 .parent1.div10 .parent1.div10');
-let divs = document.querySelectorAll('.squad > player');
-
-function dragItem() {
-  let players = document.querySelectorAll('.d-flex[draggable="true"]');
-  players.forEach(player => {
-
-    player.addEventListener('dragstart', function (e) {
-      drag = player;
-      player.style.opacity = '0.5';
-      // console.log('dragstar');
-      // console.log(player);
-      // console.log('e.target');
-    })
-
-    player.addEventListener('dragend', function (e) {
-      drag = null;
-      player.style.opacity = '1';
-      // console.log('dragend');
-      // console.log(player);
-      // console.log('e.target');
-    })
-    divs.forEach(div => {
-      div.addEventListener('dragover', function (e) {
-        e.preventDefault();
-
-        console.log('dragover');
-        // this.style.background = '#090';
-      })
-
-      div.addEventListener('dragleave', function () {
-        // this.style.background = '##333';
-      })
-
-      div.addEventListener('drop', function () {
-        // div.append(drap);
-        drag.className = 'parent1 d-flex item2';
-        this.appendChild(drag);
-      })
-
-
-    })
-
+let p = document.querySelectorAll('.squad > player');
+let plqyers = document.querySelectorAll(".card")
+for(let ele of plqyers){
+  ele.addEventListener('dragstart', function (e) {
+    drag = e.target;
+    // player.style.opacity = '0.5';
+   
+  })
+  ele.addEventListener('dragover', function (e) {
+    drag = player;
+    player.style.opacity = '0.5';
+    console.log('dragstart', drag);
+    console.log(player);
+    console.log('e.target');
   })
 
-};
+}
+// function dragItem() {
+//   let players = document.querySelectorAll('.joueur');
+//   players.forEach(player => {
+
+//     player.addEventListener('dragstart', function (e) {
+//       drag = player;
+//       player.style.opacity = '0.5';
+//       console.log('dragstart', drag);
+//       console.log(player);
+//       console.log('e.target');
+//     })
+
+//     player.addEventListener('dragend', function (e) {
+//       drag = null;
+//       player.style.opacity = '1';
+//       console.log('dragend', player);
+//       console.log(player);
+//       console.log('e.target');
+//     })
+//     p.forEach(player => {
+//       player.addEventListener('dragover', function (e) {
+//         e.preventDefault();
+
+//         console.log('dragover');
+//         // this.style.background = '#090';
+//       })
+
+//       player.addEventListener('dragleave', function () {
+//         // this.style.background = '##333';
+//       })
+
+//       player.addEventListener('drop', function () {
+//         console.log('drop', this)
+//         drag.className = 'joueur';
+//         this.appendChild(drag);
+//       })
+
+
+//     })
+
+//   })
+
+// };
 
 
 
@@ -152,7 +166,7 @@ function dragItem() {
 let toggle = document.getElementById("toggle-modal-btn");
 toggle.addEventListener("click", function(){
    var crud = document.getElementById("crud-modal");
-   crud.style = "display:block;"; 
+   crud.style = "display:block;"
 });
 
 var cont = 3;
@@ -187,17 +201,43 @@ ajouterJoueur.addEventListener("click", function(){
     const dribbling = document.getElementById("dribbling").value;
     const defending = document.getElementById("defending").value;
     const physical = document.getElementById("physical").value;
+
+    // VALIDATION DES DONNEES
+    if (!['GK', 'LB', 'CB', 'RB', 'CM', 'LW', 'RW', 'ST'].includes(position)) {
+      alert("Position invalide. Elle doit être l'une des suivantes : GK, LB, CB, RB, CM, LW, RW, ST.");
+      return;
+  }
+    // Validation des statistiques (0 <= stat <= 99)
+    const stats = [rating, pace, shooting, passing, dribbling, defending, physical];
+    for (let stat of stats) {
+      if (stat < 0 || stat > 99) {
+          alert("Les statistiques doivent être comprises entre 0 et 99.");
+          return;
+      }
+  }
+
+  // Validation du nom du joueur (obligatoire)
+  if (!nom) {
+    alert("Le nom du joueur est obligatoire.");
+    return;
+}
+
+
+
+
+
+
+
     const blkdiv = document.getElementById("card");
-    playerCard.setAttribute('draggable', 'true');
     blkdiv.insertAdjacentHTML("beforeend", `
-                                                <div class ="first-section">
+                                                <div class ="card first-section">
                                                    <div class ="position-rating">
                                                        <h1 class ="rating">${rating}</h1>
                                                        <h1 class ="position">${position}</h1>
                                                        <img src=${club_logo} alt="club">
                                                    </div>
                                                    <div class ="image-name">
-                                                       <img src=${image_joueur} alt="messi">
+                                                       <img src=${image_joueur} alt="">
                                                        <h1 class="nom">${nom}</h1>
                                                    </div>
                                                 </div>
@@ -235,8 +275,10 @@ ajouterJoueur.addEventListener("click", function(){
     
     function displayPlayers(info){
         const allPlayers = document.getElementById("card");
+        const playerCard = document.getElementById("card");
+        playerCard.setAttribute('draggable', 'true');
         allPlayers.innerHTML = info.map((item)=>{
-                return `<div id="card" class ="card">
+                return `<div dragable="true" id="joueur"  class ="card" >
                             <div class ="first-section">
                             <div class ="position-rating">
                                 <h1 class ="rating">${item.rating}</h1>
@@ -246,20 +288,20 @@ ajouterJoueur.addEventListener("click", function(){
                             <div class ="image-name">
                             <img src=${item.photo} alt="messi">
                             <h1 class="nom">${item.name}</h1>
+                            </div>
+                            </div>
+                           <div class ="informations">
+                              <div class ="first">
+                                 <h1>${item.pace}PAC</h1>
+                                 <h1>${item.shooting}SHO</h1>
+                                 <h1>${item.passing}PAS</h1>
+                              </div>
+                           <div class ="second">
+                                 <h1>${item.dribbling}DRI</h1>
+                                 <h1>${item.defending}DEF</h1>
+                                 <h1>${item.physical}PHY</h1>
+                           </div>
                           </div>
-                          </div>
-                         <div class ="informations">
-                          <div class ="first">
-                          <h1>${item.pace}PAC</h1>
-                          <h1>${item.shooting}SHO</h1>
-                          <h1>${item.passing}PAS</h1>
-                         </div>
-                         <div class ="second">
-                            <h1>${item.dribbling}DRI</h1>
-                            <h1>${item.defending}DEF</h1>
-                            <h1>${item.physical}PHY</h1>
-                         </div>
-                         </div>
                         </div>
                         `
     
@@ -307,3 +349,4 @@ ajouterJoueur.addEventListener("click", function(){
 //     var data = ev.dataTransfer.getData("text");
 //     ev.target.appendChild(document.getElementById(data));
 //   }
+
