@@ -1,3 +1,123 @@
+// drag and drop
+
+
+let drag = null;
+// let divs = Document.querySelectorAll('.parent1.div1 .parent1.div2 .parent1.div3 .parent1.div4 .parent1.div5 .parent1.div6 .parent1.div7 .parent1.div 8 .parent1.div9 .parent1.div10 .parent1.div10');
+let divs = document.querySelectorAll('.squad > player');
+
+function dragItem() {
+  let players = document.querySelectorAll('.d-flex[draggable="true"]');
+  players.forEach(player => {
+
+    player.addEventListener('dragstart', function (e) {
+      drag = player;
+      player.style.opacity = '0.5';
+      // console.log('dragstar');
+      // console.log(player);
+      // console.log('e.target');
+    })
+
+    player.addEventListener('dragend', function (e) {
+      drag = null;
+      player.style.opacity = '1';
+      // console.log('dragend');
+      // console.log(player);
+      // console.log('e.target');
+    })
+    divs.forEach(div => {
+      div.addEventListener('dragover', function (e) {
+        e.preventDefault();
+
+        console.log('dragover');
+        // this.style.background = '#090';
+      })
+
+      div.addEventListener('dragleave', function () {
+        // this.style.background = '##333';
+      })
+
+      div.addEventListener('drop', function () {
+        // div.append(drap);
+        drag.className = 'parent1 d-flex item2';
+        this.appendChild(drag);
+      })
+
+
+    })
+
+  })
+
+};
+
+
+
+// let players = document.querySelectorAll('.player');
+// let drag=null;
+
+
+
+// function dragItem(){
+//     let items=document.querySelectorAll('.player');
+//     items.forEach(player=>{
+//         player.addEventListener('dragstart',function(){
+//             drag = player;
+//             player.style.opacity = '0.5';
+//         })
+
+//         player.addEventListener('dragend',function(){
+//             drag = null;
+//             player.style.opacity = '1';
+//         })
+
+//         players.forEach(player=>{
+//             player.addEventListener('dragover', function(){
+//                 console.log('drag over');
+//             })
+//             player.addEventListener('drop', function(){
+//                 player.append(drag);
+//             })
+    
+//         })
+        
+        
+
+
+//       })
+// }
+// let newX = 0, newY = 0, startX = 0, startY = 0 ;
+
+// const card = document.getElementById('card');
+
+// card.addEventListener('mousedown', mouseDown)
+
+// function mouseDown(e){
+//     startX = e.joueurX;
+//     startY = e.joueurY;
+
+//     document.addEventListener('mousemove', mouseMove)
+//     document.addEventListener('mouseup', mouseUp)
+// }
+
+// function mouseMove(e){
+//     newX = startX - e.joueurX;
+//     newY = startY - e.joueurY;
+
+//     startX = e.joueurX;
+//     startY = e.joueurY;
+
+//     card.style.top = (card.offsetTop - newY) + 'px';
+//     card.style.left = (card.offsetLeft - newX) + 'px';
+
+//     console.log({newX, newY});
+//     console.log({startX, startY});
+
+// }
+
+// function mouseUp(e){
+//     document.removeEventListener('mousemove', mouseMove);
+// }
+
+
 // fetch("../pages/players.json")
 //       .then((response) => response.json())
 //       .then((data) => displayPlayers(data.players));
@@ -46,7 +166,7 @@ closeBtn.addEventListener("click", function(){
 
 
 
-let ajouterJoueur= document.getElementById("ajouter-serv");
+let ajouterJoueur= document.getElementById("ajouter-joueur");
 ajouterJoueur.addEventListener("click", function(){
     const image_joueur = document.getElementById("image-joueur").files[0];
     let imageUrl = '';
@@ -68,37 +188,42 @@ ajouterJoueur.addEventListener("click", function(){
     const defending = document.getElementById("defending").value;
     const physical = document.getElementById("physical").value;
     const blkdiv = document.getElementById("card");
-    blkdiv.insertAdjacentHTML("beforeend", `<div id="card" class ="card">
-                            <div class ="first-section">
-                            <div class ="position-rating">
-                                <h1 class ="rating">${rating}</h1>
-                                <h1 class ="position">${position}</h1>
-                                <img src=${club_logo} alt="club">
-                            </div>
-                            <div class ="image-name">
-                            <img src=${image_joueur} alt="messi">
-                            <h1 class="nom">${nom}</h1>
-                          </div>
-                          </div>
-                         <div class ="informations">
-                          <div class ="first">
-                          <h1>${pace}PAC</h1>
-                          <h1>${shooting}SHO</h1>
-                          <h1>${passing}PAS</h1>
-                         </div>
-                         <div class ="second">
-                            <h1>${dribbling}DRI</h1>
-                            <h1>${defending}DEF</h1>
-                            <h1>${physical}PHY</h1>
-                         </div>
-                         </div>
-                        </div>`
+    playerCard.setAttribute('draggable', 'true');
+    blkdiv.insertAdjacentHTML("beforeend", `
+                                                <div class ="first-section">
+                                                   <div class ="position-rating">
+                                                       <h1 class ="rating">${rating}</h1>
+                                                       <h1 class ="position">${position}</h1>
+                                                       <img src=${club_logo} alt="club">
+                                                   </div>
+                                                   <div class ="image-name">
+                                                       <img src=${image_joueur} alt="messi">
+                                                       <h1 class="nom">${nom}</h1>
+                                                   </div>
+                                                </div>
+                                                <div class ="informations">
+                                                    <div class ="first">
+                                                    <h1>${pace}PAC</h1>
+                                                    <h1>${shooting}SHO</h1>
+                                                    <h1>${passing}PAS</h1>
+                                                </div>
+                                                <div class ="second">
+                                                    <h1>${dribbling}DRI</h1>
+                                                    <h1>${defending}DEF</h1>
+                                                    <h1>${physical}PHY</h1>
+                                                </div>
+                                            `
         )
         
-        document.getElementById("name").value = " "
-        document.getElementById("price").value = " "
-        document.getElementById("description").value = " "
-        document.getElementById("category").value = "Selectioner la categorie"
+        document.getElementById("name").value;
+        document.getElementById("rating").value;
+        document.getElementById("position").value;
+        document.getElementById("pace").value;
+        document.getElementById("shooting").value;
+        document.getElementById("passing").value;
+        document.getElementById("dribbling").value;
+        document.getElementById("defending").value;
+        document.getElementById("physical").value;
 
 });
 
@@ -167,3 +292,18 @@ ajouterJoueur.addEventListener("click", function(){
 //         </div>
 //     }
 // }
+
+
+// function allowDrop(ev) {
+//     ev.preventDefault();
+//   }
+  
+//   function drag(ev) {
+//     ev.dataTransfer.setData("text", ev.target.id);
+//   }
+  
+//   function drop(ev) {
+//     ev.preventDefault();
+//     var data = ev.dataTransfer.getData("text");
+//     ev.target.appendChild(document.getElementById(data));
+//   }
