@@ -1,24 +1,87 @@
 // drag and drop
 
-let drag = null;
-// let divs = Document.querySelectorAll('.parent1.div1 .parent1.div2 .parent1.div3 .parent1.div4 .parent1.div5 .parent1.div6 .parent1.div7 .parent1.div 8 .parent1.div9 .parent1.div10 .parent1.div10');
-let p = document.querySelectorAll('.squad > player');
-let plqyers = document.querySelectorAll(".card")
-for(let ele of plqyers){
-  ele.addEventListener('dragstart', function (e) {
-    drag = e.target;
-    // player.style.opacity = '0.5';
-   
-  })
-  ele.addEventListener('dragover', function (e) {
-    drag = player;
-    player.style.opacity = '0.5';
-    console.log('dragstart', drag);
-    console.log(player);
-    console.log('e.target');
-  })
+let drag = null;  // To store the dragged element
 
+// Get all player positions in the squad and player cards
+let p = document.querySelectorAll('.player');
+let players = document.querySelectorAll(".card"); // These are the draggable player cards
+
+// Fetch the player data and display it
+fetch("../pages/players.json")
+  .then((response) => response.json())
+  .then((data) => displayPlayers(data.players));
+
+// Function to display player cards on the page
+function displayPlayers(info) {
+    const allPlayers = document.getElementById("card");
+    allPlayers.innerHTML = info.map((item) => {
+        return `<div draggable="true" class="card" data-position="${item.position}">
+                    <div class="first-section">
+                        <div class="position-rating">
+                            <h1 class="rating">${item.rating}</h1>
+                            <h1 class="position">${item.position}</h1>
+                            <img src="${item.logo}" alt="club">
+                        </div>
+                        <div class="image-name">
+                            <img src="${item.photo}" alt="player photo">
+                            <h1 class="nom">${item.name}</h1>
+                        </div>
+                    </div>
+                    <div class="informations">
+                        <div class="first">
+                            <h1>${item.pace} PAC</h1>
+                            <h1>${item.shooting} SHO</h1>
+                            <h1>${item.passing} PAS</h1>
+                        </div>
+                        <div class="second">
+                            <h1>${item.dribbling} DRI</h1>
+                            <h1>${item.defending} DEF</h1>
+                            <h1>${item.physical} PHY</h1>
+                        </div>
+                    </div>
+                </div>`;
+    }).join('');
 }
+
+// Make each card draggable
+let allCards = document.querySelectorAll('.card');
+allCards.forEach(card => {
+    card.addEventListener('dragstart', function (e) {
+        drag = e.target;  // Store the dragged element
+    });
+    card.addEventListener('dragend', function () {
+        drag = null;  // Reset when the drag ends
+    });
+});
+
+// Allow each position on the squad to accept the dragged card
+p.forEach(player => {
+    player.addEventListener('dragover', function (e) {
+        e.preventDefault();  // Allow dropping by preventing the default behavior
+    });
+
+    player.addEventListener('drop', function () {
+        // When a player card is dropped
+        if (drag) {
+            let droppedPlayer = drag;  // Get the dragged card
+            let position = player.getAttribute('data-position');  // Get the position of the target spot
+
+            // Replace the content in the position with the dragged card
+            let targetImage = player.querySelector('img');
+            let targetText = player.querySelector('p');
+
+            // Update the position image and text (replace the placeholder content)
+            let cardImage = droppedPlayer.querySelector('img').src;
+            let cardName = droppedPlayer.querySelector('.nom').innerText;
+
+            targetImage.src = cardImage;  // Change the image
+            targetText.innerText = cardName;  // Change the name
+
+            // Optionally, hide the dragged card from the cards section
+            droppedPlayer.style.display = 'none';
+        }
+    });
+});
 // function dragItem() {
 //   let players = document.querySelectorAll('.joueur');
 //   players.forEach(player => {
@@ -222,36 +285,33 @@ ajouterJoueur.addEventListener("click", function(){
     return;
 }
 
-
-
-
-
-
-
     const blkdiv = document.getElementById("card");
     blkdiv.insertAdjacentHTML("beforeend", `
-                                                <div class ="card first-section">
-                                                   <div class ="position-rating">
-                                                       <h1 class ="rating">${rating}</h1>
-                                                       <h1 class ="position">${position}</h1>
-                                                       <img src=${club_logo} alt="club">
-                                                   </div>
-                                                   <div class ="image-name">
-                                                       <img src=${image_joueur} alt="">
-                                                       <h1 class="nom">${nom}</h1>
-                                                   </div>
-                                                </div>
-                                                <div class ="informations">
-                                                    <div class ="first">
-                                                    <h1>${pace}PAC</h1>
-                                                    <h1>${shooting}SHO</h1>
-                                                    <h1>${passing}PAS</h1>
-                                                </div>
-                                                <div class ="second">
-                                                    <h1>${dribbling}DRI</h1>
-                                                    <h1>${defending}DEF</h1>
-                                                    <h1>${physical}PHY</h1>
-                                                </div>
+                                               <div dragable="true" id="joueur"  class ="card" >
+                            <div class ="first-section">
+                            <div class ="position-rating">
+                                <h1 class ="rating">${rating}</h1>
+                                <h1 class ="position">${position}</h1>
+                                <img src=${club_logo} alt="club">
+                            </div>
+                            <div class ="image-name">
+                            <img src=${image_joueur} alt="">
+                            <h1 class="nom">${nom}</h1>
+                            </div>
+                            </div>
+                           <div class ="informations">
+                              <div class ="first">
+                                 <h1>${pace}PAC</h1>
+                                 <h1>${shooting}SHO</h1>
+                                 <h1>${passing}PAS</h1>
+                              </div>
+                           <div class ="second">
+                                 <h1>${dribbling}DRI</h1>
+                                 <h1>${defending}DEF</h1>
+                                 <h1>${physical}PHY</h1>
+                           </div>
+                          </div>
+                        </div>
                                             `
         )
         
@@ -278,7 +338,7 @@ ajouterJoueur.addEventListener("click", function(){
         const playerCard = document.getElementById("card");
         playerCard.setAttribute('draggable', 'true');
         allPlayers.innerHTML = info.map((item)=>{
-                return `<div dragable="true" id="joueur"  class ="card" >
+                return `<div draggable="true" id="joueur"  class ="card" >
                             <div class ="first-section">
                             <div class ="position-rating">
                                 <h1 class ="rating">${item.rating}</h1>
