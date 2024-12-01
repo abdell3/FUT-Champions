@@ -1,53 +1,15 @@
-// drag and drop
-
 let drag = null;  // To store the dragged element
 
 // Get all player positions in the squad and player cards
 let p = document.querySelectorAll('.player');
 let players = document.querySelectorAll(".card"); // These are the draggable player cards
 
-// Fetch the player data and display it
-fetch("../pages/players.json")
-  .then((response) => response.json())
-  .then((data) => displayPlayers(data.players));
-
-// Function to display player cards on the page
-function displayPlayers(info) {
-    const allPlayers = document.getElementById("card");
-    allPlayers.innerHTML = info.map((item) => {
-        return `<div draggable="true" class="card" data-position="${item.position}">
-                    <div class="first-section">
-                        <div class="position-rating">
-                            <h1 class="rating">${item.rating}</h1>
-                            <h1 class="position">${item.position}</h1>
-                            <img src="${item.logo}" alt="club">
-                        </div>
-                        <div class="image-name">
-                            <img src="${item.photo}" alt="player photo">
-                            <h1 class="nom">${item.name}</h1>
-                        </div>
-                    </div>
-                    <div class="informations">
-                        <div class="first">
-                            <h1>${item.pace} PAC</h1>
-                            <h1>${item.shooting} SHO</h1>
-                            <h1>${item.passing} PAS</h1>
-                        </div>
-                        <div class="second">
-                            <h1>${item.dribbling} DRI</h1>
-                            <h1>${item.defending} DEF</h1>
-                            <h1>${item.physical} PHY</h1>
-                        </div>
-                    </div>
-                </div>`;
-    }).join('');
-}
-
 // Make each card draggable
 let allCards = document.querySelectorAll('.card');
 allCards.forEach(card => {
     card.addEventListener('dragstart', function (e) {
         drag = e.target;  // Store the dragged element
+        e.dataTransfer.setData("text", drag.outerHTML);
     });
     card.addEventListener('dragend', function () {
         drag = null;  // Reset when the drag ends
@@ -58,29 +20,55 @@ allCards.forEach(card => {
 p.forEach(player => {
     player.addEventListener('dragover', function (e) {
         e.preventDefault();  // Allow dropping by preventing the default behavior
-    });
+    // On vérifie si la position est valide pour le joueur
+    let validDrop = false;
+    const position = player.getAttribute("data-position"); // Récupérer la position de la case
+    const draggedCardPosition = drag ? drag.querySelector(".position").innerText : "";
 
-    player.addEventListener('drop', function () {
-        // When a player card is dropped
-        if (drag) {
-            let droppedPlayer = drag;  // Get the dragged card
-            let position = player.getAttribute('data-position');  // Get the position of the target spot
+    // Si la position du joueur correspond à la position de la carte
+    if (position === draggedCardPosition) {
+        validDrop = true;
+    }
 
-            // Replace the content in the position with the dragged card
-            let targetImage = player.querySelector('img');
-            let targetText = player.querySelector('p');
+    // Appliquer un style en fonction de la validité du drop
+    if (validDrop) {
+        player.style.border = "3px solid green"; // Zone valide, on la met en vert
+    } else {
+        player.style.border = "3px solid red";  // Zone invalide, on la met en rouge
+    }
+});
 
-            // Update the position image and text (replace the placeholder content)
-            let cardImage = droppedPlayer.querySelector('img').src;
-            let cardName = droppedPlayer.querySelector('.nom').innerText;
+player.addEventListener('dragleave', function () {
+    // Réinitialiser la couleur de la bordure quand le drag quitte la zone
+    player.style.border = "";
+});
 
-            targetImage.src = cardImage;  // Change the image
-            targetText.innerText = cardName;  // Change the name
+player.addEventListener('drop', function () {
+    // Quand un joueur dépose une carte
+    let validDrop = false;
+    const position = player.getAttribute("data-position");  // Position de la case
+    const draggedCardPosition = drag ? drag.querySelector(".position").innerText : "";
 
-            // Optionally, hide the dragged card from the cards section
-            droppedPlayer.style.display = 'none';
-        }
-    });
+    // Vérifier si la position du joueur est valide
+    if (position === draggedCardPosition) {
+        validDrop = true;
+    }
+
+    // Si le drop est valide, ajouter la carte à cette position
+    if (validDrop) {
+        let droppedCard = drag.cloneNode(true);  // Clone la carte déplacée
+        player.innerHTML = '';  // Vide la case
+        player.appendChild(droppedCard);  // Ajoute la carte à la position
+
+        drag.style.display = 'none';  // Masque la carte dans le pool (optionnel)
+    } else {
+        // Si le drop est invalide, remettre la carte à sa place d'origine
+        drag.style.display = '';  // Réafficher la carte originale si elle doit revenir
+    }
+
+    // Réinitialiser la couleur de la bordure à la fin
+    player.style.border = "";
+});
 });
 // function dragItem() {
 //   let players = document.querySelectorAll('.joueur');
@@ -195,36 +183,6 @@ p.forEach(player => {
 // }
 
 
-// fetch("../pages/players.json")
-//       .then((response) => response.json())
-//       .then((data) => displayPlayers(data.players));
-    
-//     function displayPlayers(info){
-//         const allPlayers = document.getElementById("cards");
-//         allPlayers.innerHTML = info.map((item)=>{
-//                 return `<div>
-//             <div class=" bg-orange-300 mb-3 ">
-//                 <div class="flex">
-//                 <div>
-//                 <h6>${item.position}</h6>
-//                 <h4>${item.rating}</h4>
-//                 </div>
-//                 <img src=${item.photo} alt="">
-//                 </div>
-//               <h6>${item.name}</h6>
-//               <p>${item.nationality}</p> 
-//               <div class="flex gap-1">
-//               <img style="border-radius: 50%; width:20px; height:20px"  src=${item.flag} alt="">
-//               <img style="border-radius: 50%; width:20px; height:20px"  src=${item.logo} alt="">
-//               </div>
-
-//         </div>
-//     </div>`
-    
-//         })
-//         .join( ``);
-//     }
-
 
 let toggle = document.getElementById("toggle-modal-btn");
 toggle.addEventListener("click", function(){
@@ -337,76 +295,135 @@ ajouterJoueur.addEventListener("click", function(){
         const allPlayers = document.getElementById("card");
         const playerCard = document.getElementById("card");
         playerCard.setAttribute('draggable', 'true');
-        allPlayers.innerHTML = info.map((item)=>{
-                return `<div draggable="true" id="joueur"  class ="card" >
+        allPlayers.innerHTML = '';
+        info.forEach((item)=>{
+          let stats = '';
+          if (item.position === "GK") {
+                stats = `<div draggable="true" id="joueur"  class ="card" >
                             <div class ="first-section">
-                            <div class ="position-rating">
-                                <h1 class ="rating">${item.rating}</h1>
-                                <h1 class ="position">${item.position}</h1>
-                                <img src=${item.logo} alt="club">
+                                <div class ="position-rating">
+                                    <h1 class ="rating">${item.rating}</h1>
+                                    <h1 class ="position">${item.position}</h1>
+                                    <img src=${item.logo} alt="club">
+                                </div>
+                                <div class ="image-name">
+                                    <img src=${item.photo} alt="">
+                                    <h1 class="nom">${item.name}</h1>
+                                </div>
                             </div>
-                            <div class ="image-name">
-                            <img src=${item.photo} alt="messi">
-                            <h1 class="nom">${item.name}</h1>
+                            <div class ="informations">
+                               <div class ="first">
+                                   <h1>${item.diving}DIV</h1>
+                                   <h1>${item.handling}HAN</h1>
+                                   <h1>${item.kicking}KIC</h1>
+                               </div>
+                               <div class ="second">
+                                   <h1>${item.reflexes}REF</h1>
+                                   <h1>${item.speed}SPD</h1>
+                                   <h1>${item.positioning}POS</h1>
+                               </div>
                             </div>
-                            </div>
-                           <div class ="informations">
-                              <div class ="first">
-                                 <h1>${item.pace}PAC</h1>
-                                 <h1>${item.shooting}SHO</h1>
-                                 <h1>${item.passing}PAS</h1>
-                              </div>
-                           <div class ="second">
-                                 <h1>${item.dribbling}DRI</h1>
-                                 <h1>${item.defending}DEF</h1>
-                                 <h1>${item.physical}PHY</h1>
-                           </div>
-                          </div>
-                        </div>
-                        `
-    
-        })
-        .join( ``);
-    }
-//     function displayPlayers(test){
-//     if (player.position == "GK") {
-//         html +=   <div>
+                         </div>
+                        `;
+                  }
+                  else {
+                    
+                    stats = `<div draggable="true" id="joueur"  class ="card" >
+                                <div class ="first-section">
+                                   <div class ="position-rating">
+                                       <h1 class ="rating">${item.rating}</h1>
+                                       <h1 class ="position">${item.position}</h1>
+                                       <img src=${item.logo} alt="club">
+                                   </div>
+                                   <div class ="image-name">
+                                       <img src=${item.photo} alt="">
+                                       <h1 class="nom">${item.name}</h1>
+                                   </div>
+                                </div>
+                                <div class ="informations">
+                                    <div class="first">
+                                         <h1>${item.pace}PAC</h1>
+                                         <h1>${item.shooting}SHO</h1>
+                                         <h1>${item.passing}PAS</h1>
+                                    </div>
+                                    <div class="second">
+                                         <h1>${item.dribbling}DRI</h1>
+                                         <h1>${item.defending}DEF</h1>
+                                         <h1>${item.physical}PHY</h1>
+                                    </div>
+                                </div>
+                             </div> 
+                        `;
+                }
+                const playerCard = `
+            <div draggable="true" id="joueur" class="card transition-all hover:scale-105 flex flex-row">
+                ${stats}
+            </div>
+             `;
+             allPlayers.innerHTML += playerCard;
+    })
 
-//             <span>${item.rating}+ player.rating + </span>
-//             <span>${item.diving}+ player.diving+ </span>
-//             <span>${item.handling}+ player.handling + </span>
-//             <span>${item.kicking}+ player.kicking + </span>
-//             <span>${item.reflexes}+ player.reflexes + </span>
-//             <span>${item.speed}+ player.speed +</span>
-//             <span>${item.positioning}+ player.positioning+</span>
-
-//         </div>
-
-//     } else {
-//         html +=   <div>
-
-//             <span>${item.pace}+ player.pace + </span>
-//             <span>${item.shooting}+ player.shooting + </span>
-//             <span>${item.passing}+ player.passing + </span>
-//             <span>${item.dribbling}+ player.dribbling + </span>
-//             <span>${item.defending}+ player.defending + </span>
-//             <span>${item.physical}+ player.physical + </span>
-//         </div>
-//     }
-// }
+}
 
 
-// function allowDrop(ev) {
-//     ev.preventDefault();
-//   }
-  
-//   function drag(ev) {
-//     ev.dataTransfer.setData("text", ev.target.id);
-//   }
-  
-//   function drop(ev) {
-//     ev.preventDefault();
-//     var data = ev.dataTransfer.getData("text");
-//     ev.target.appendChild(document.getElementById(data));
-//   }
+document.getElementById('formation-select').addEventListener('change', function() {
+  const formation = this.value;
+
+  const players = {
+      'GK': document.querySelector('.player1'),
+      'LB': document.querySelector('.player2'),
+      'CB1': document.querySelector('.player3'),
+      'CB2': document.querySelector('.player4'),
+      'RB': document.querySelector('.player5'),
+      'CM1': document.querySelector('.player6'),
+      'CM2': document.querySelector('.player7'),
+      'CM3': document.querySelector('.player8'),
+      'LW': document.querySelector('.player9'),
+      'ST': document.querySelector('.player10'),
+      'RW': document.querySelector('.player11')
+  };
+
+  // Réinitialiser les positions des joueurs
+  Object.values(players).forEach(player => {
+      player.style.gridArea = '';
+  });
+
+  if (formation === '433') {
+      players['GK'].style.gridArea = '7/4/8/5';
+      players['LB'].style.gridArea = '6/1/7/2';
+      players['CB1'].style.gridArea = '6/3/7/4';
+      players['CB2'].style.gridArea = '6/5/7/6';
+      players['RB'].style.gridArea = '6/7/7/8';
+      players['CM1'].style.gridArea = '4/2/5/3';
+      players['CM2'].style.gridArea = '4/4/5/5';
+      players['CM3'].style.gridArea = '4/6/5/7';
+      players['LW'].style.gridArea = '2/2/3/3';
+      players['ST'].style.gridArea = '2/4/3/5';
+      players['RW'].style.gridArea = '2/6/3/7';
+  } else if (formation === '442') {
+      players['GK'].style.gridArea = '7 / 4 / 8 / 5';
+      players['LB'].style.gridArea = '6 / 1 / 7 / 2';
+      players['CB1'].style.gridArea = '6 / 3 / 7 / 4';
+      players['CB2'].style.gridArea = '6 / 5 / 7 / 6';
+      players['RB'].style.gridArea = '6 / 7 / 7 / 8';
+      players['CM1'].style.gridArea = '4 / 7 / 5 / 8';
+      players['CM2'].style.gridArea = '4 / 5 / 5 / 6';
+      players['CM3'].style.gridArea = '4 / 3 / 5 / 4';
+      players['LW'].style.gridArea = '4 / 1 / 5 / 2';
+      players['ST'].style.gridArea = '2 / 3 / 3 / 4';
+      players['RW'].style.gridArea = '2 / 5 / 3 / 6';
+  } else if (formation === '451') {
+      players['GK'].style.gridArea = '7/4';
+      players['LB'].style.gridArea = '6/1';
+      players['CB1'].style.gridArea = '6/2';
+      players['CB2'].style.gridArea = '6/3';
+      players['RB'].style.gridArea = '6/5';
+      players['CM1'].style.gridArea = '4/2';
+      players['CM2'].style.gridArea = '4/3';
+      players['CM3'].style.gridArea = '4/4';
+      players['CM4'].style.gridArea = '3/2';
+      players['ST'].style.gridArea = '2/3';
+      players['RW'].style.gridArea = '2/4';
+  }
+});
 
