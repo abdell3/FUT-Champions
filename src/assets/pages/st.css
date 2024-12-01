@@ -49,18 +49,18 @@ div {
 }
 .squad_builder {
     display: grid;
-    height: 650px;
+    height: 900px;
     place-items: center;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
     grid-column-gap: 10px;
     grid-row-gap: 10px;
-    /* grid-template-areas:  */
-        /* "... ... st ... ..."
-        "lw ... ... ... rw"
-        "... cm cm cm ..."
-        "lb cb ... cb rb"
-        "... ... gk ... ..."; */
+    overflow: hidden;
+    position: relative;
+}
+#equipe {
+    position: relative; /* Position relative pour permettre le positionnement absolu des éléments en déplacement */
+    overflow: hidden; /* Empêche le débordement des éléments de l'équipe */
 }
 
 .player {
@@ -68,32 +68,33 @@ div {
     padding: 10px;
     background-color: #ffcc00;
     border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card {
+    cursor: pointer;  /* Change le curseur pour indiquer que l'élément est draggable */
+}
+
+.player.dragging {
+    position: absolute; /* Positionnement absolu pendant le drag pour qu'ils ne soient pas affectés par la grille */
+    z-index: 1000; /* Placer la carte au-dessus des autres éléments */
+    width: 110px;  /* Assurez-vous que la taille est uniforme pendant le drag */
+    height: 150px; /* Même taille que l'image */
 }
 
 /* Positions initiales pour 4-3-3 */
-.player1 { grid-area: 7/4/8/5; } /* GK */
-.player2 { grid-area: 6/1/7/2; } /* LB */
-.player3 { grid-area: 6/3/7/4; } /* CB */
-.player4 { grid-area: 6/5/7/6; } /* CB */
-.player5 { grid-area: 6/7/7/8; } /* RB */
-.player6 { grid-area: 4/2/5/3; } /* CM */
-.player7 { grid-area: 4/4/5/5; } /* CM */
-.player8 { grid-area: 4/6/5/7; } /* CM */
-.player9 { grid-area: 2/2/3/3; } /* LW */
-.player10 { grid-area: 2/4/3/5; } /* ST */
-.player11 { grid-area: 2/6/3/7; } /* RW */
+.player1 { grid-area: 7 / 4 / 8 / 5; } /* GK */
+.player2 { grid-area: 5 / 7 / 6 / 8; } /* LB */
+.player3 { grid-area: 5 / 5 / 6 / 6; } /* CB */
+.player4 { grid-area: 5 / 3 / 6 / 4; } /* CB */
+.player5 { grid-area: 5 / 1 / 6 / 2; } /* RB */
+.player6 { grid-area: 3 / 6 / 4 / 7; } /* CM */
+.player7 { grid-area: 3 / 4 / 4 / 5; } /* CM */
+.player8 { grid-area: 3 / 2 / 4 / 3; } /* CM */
+.player9 { grid-area: 1 / 6 / 2 / 7; } /* LW */
+.player10 { grid-area: 1 / 4 / 2 / 5; } /* ST */
+.player11 { grid-area: 1 / 2 / 2 / 3; } /* RW */
 
-.player1 { grid-area: 7 / 4 / 8 / 5; }
-.player2 { grid-area: 6 / 1 / 7 / 2; }
-.player3 { grid-area: 6 / 3 / 7 / 4; }
-.player4 { grid-area: 6 / 5 / 7 / 6; }
-.player5 { grid-area: 6 / 7 / 7 / 8; }
-.player6 { grid-area: 4 / 7 / 5 / 8; }
-.player7 { grid-area: 4 / 5 / 5 / 6; }
-.player8 { grid-area: 4 / 3 / 5 / 4; }
-.player9 { grid-area: 4 / 1 / 5 / 2; }
-.player10 { grid-area: 2 / 3 / 3 / 4; }
-.player11 { grid-area: 2 / 5 / 3 / 6; }
 
 
 
@@ -141,6 +142,7 @@ div {
 .card{
     background-image: url("../img/placeholder-card-normal.webp");
     background-size: 100%;
+    /* background: linear-gradient(145deg, #ffcc00, #ff9900); */
     height:220px;
     width:120px;
     background-repeat: no-repeat;
@@ -148,7 +150,15 @@ div {
     font-optical-sizing: auto;
     font-weight: normal;
     font-style: normal;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
 }
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* background: linear-gradient(145deg, #ff9900, #ffcc00); */
+}
+
 .card .first-section{
     height:55px;
 }
@@ -289,6 +299,16 @@ div {
 
     .card .informations h1 {
         font-size: 9px;
+    }
+}
+
+@media (max-width: 768px) {
+    .squad_builder {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .card {
+        width: 90px;
+        height: 180px;
     }
 }
 

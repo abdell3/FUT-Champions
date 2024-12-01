@@ -31,11 +31,7 @@ p.forEach(player => {
     }
 
     // Appliquer un style en fonction de la validité du drop
-    if (validDrop) {
-        player.style.border = "3px solid green"; // Zone valide, on la met en vert
-    } else {
-        player.style.border = "3px solid red";  // Zone invalide, on la met en rouge
-    }
+    player.style.border = validDrop ? "3px solid green" : "3px solid red";
 });
 
 player.addEventListener('dragleave', function () {
@@ -196,7 +192,7 @@ var cint = 0;
 let closeBtn = document.getElementById("cancel-btn");
 closeBtn.addEventListener("click", function(){
     const crud_modal = document.getElementById("crud-modal");
-    crud_modal.style = "display: hidden";
+    crud_modal.style = "display: none";
 });
 
 
@@ -289,7 +285,8 @@ ajouterJoueur.addEventListener("click", function(){
 
     fetch("../pages/players.json")
       .then((response) => response.json())
-      .then((data) => displayPlayers(data.players));
+      .then((data) => displayPlayers(data.players))
+      .catch(error => console.error('Error fetching player data:', error));
     
     function displayPlayers(info){
         const allPlayers = document.getElementById("card");
@@ -366,64 +363,60 @@ ajouterJoueur.addEventListener("click", function(){
 }
 
 
-document.getElementById('formation-select').addEventListener('change', function() {
-  const formation = this.value;
+// Récupérer le sélecteur de formation et les joueurs
+const formationSelect = document.getElementById('formation-select');
+const play = document.querySelectorAll('.player');
 
-  const players = {
-      'GK': document.querySelector('.player1'),
-      'LB': document.querySelector('.player2'),
-      'CB1': document.querySelector('.player3'),
-      'CB2': document.querySelector('.player4'),
-      'RB': document.querySelector('.player5'),
-      'CM1': document.querySelector('.player6'),
-      'CM2': document.querySelector('.player7'),
-      'CM3': document.querySelector('.player8'),
-      'LW': document.querySelector('.player9'),
-      'ST': document.querySelector('.player10'),
-      'RW': document.querySelector('.player11')
-  };
-
-  // Réinitialiser les positions des joueurs
-  Object.values(players).forEach(player => {
-      player.style.gridArea = '';
+// Fonction pour changer les positions des joueurs selon la formation
+function changeFormation(formation) {
+  // Réinitialiser les positions des joueurs avant de les modifier
+  play.forEach(player => {
+    player.style.gridArea = '';  // Réinitialiser les positions
   });
 
-  if (formation === '433') {
-      players['GK'].style.gridArea = '7/4/8/5';
-      players['LB'].style.gridArea = '6/1/7/2';
-      players['CB1'].style.gridArea = '6/3/7/4';
-      players['CB2'].style.gridArea = '6/5/7/6';
-      players['RB'].style.gridArea = '6/7/7/8';
-      players['CM1'].style.gridArea = '4/2/5/3';
-      players['CM2'].style.gridArea = '4/4/5/5';
-      players['CM3'].style.gridArea = '4/6/5/7';
-      players['LW'].style.gridArea = '2/2/3/3';
-      players['ST'].style.gridArea = '2/4/3/5';
-      players['RW'].style.gridArea = '2/6/3/7';
-  } else if (formation === '442') {
-      players['GK'].style.gridArea = '7 / 4 / 8 / 5';
-      players['LB'].style.gridArea = '6 / 1 / 7 / 2';
-      players['CB1'].style.gridArea = '6 / 3 / 7 / 4';
-      players['CB2'].style.gridArea = '6 / 5 / 7 / 6';
-      players['RB'].style.gridArea = '6 / 7 / 7 / 8';
-      players['CM1'].style.gridArea = '4 / 7 / 5 / 8';
-      players['CM2'].style.gridArea = '4 / 5 / 5 / 6';
-      players['CM3'].style.gridArea = '4 / 3 / 5 / 4';
-      players['LW'].style.gridArea = '4 / 1 / 5 / 2';
-      players['ST'].style.gridArea = '2 / 3 / 3 / 4';
-      players['RW'].style.gridArea = '2 / 5 / 3 / 6';
-  } else if (formation === '451') {
-      players['GK'].style.gridArea = '7/4';
-      players['LB'].style.gridArea = '6/1';
-      players['CB1'].style.gridArea = '6/2';
-      players['CB2'].style.gridArea = '6/3';
-      players['RB'].style.gridArea = '6/5';
-      players['CM1'].style.gridArea = '4/2';
-      players['CM2'].style.gridArea = '4/3';
-      players['CM3'].style.gridArea = '4/4';
-      players['CM4'].style.gridArea = '3/2';
-      players['ST'].style.gridArea = '2/3';
-      players['RW'].style.gridArea = '2/4';
+  if (formation === '4-3-3') {
+    // Formation 4-3-3
+    play[0].style.gridArea = '7 / 4 / 8 / 5';  // GK
+    play[1].style.gridArea = '5 / 7 / 6 / 8';  // RB
+    play[2].style.gridArea = '5 / 5 / 6 / 6';  // CB
+    play[3].style.gridArea = '5 / 3 / 6 / 4';  // CB
+    play[4].style.gridArea = '5 / 1 / 6 / 2';  // RB
+    play[5].style.gridArea = '3 / 6 / 4 / 7';  // CM
+    play[6].style.gridArea = '3 / 4 / 4 / 5';  // CM
+    play[7].style.gridArea = '3 / 2 / 4 / 3';  // CM
+    play[8].style.gridArea = '1 / 6 / 2 / 7';  // LW
+    play[9].style.gridArea = '1 / 4 / 2 / 5';  // ST
+    play[10].style.gridArea = '1 / 2 / 2 / 3'; // RW
+  } else if (formation === '4-4-2') {
+    // Formation 4-4-2
+    play[0].style.gridArea = '7 / 4 / 8 / 5';  // GK
+    play[1].style.gridArea = '5 / 7 / 6 / 8';  // LB
+    play[2].style.gridArea = '5 / 5 / 6 / 6';  // CB
+    play[3].style.gridArea = '5 / 3 / 6 / 4';  // CB
+    play[4].style.gridArea = '5 / 1 / 6 / 2';  // RB
+    play[5].style.gridArea = '3 / 1 / 4 / 2';  // LM
+    play[6].style.gridArea = '3 / 3 / 4 / 4';  // CM
+    play[7].style.gridArea = '3 / 5 / 4 / 6';  // RM
+    play[8].style.gridArea = '3 / 7 / 4 / 8';  // LF
+    play[9].style.gridArea = '1 / 5 / 2 / 6';  // RF
+    play[10].style.gridArea = '1 / 3 / 2 / 4'; // st
+  } else if (formation === '3-5-2') {
+    // Formation 3-5-2
+    play[0].style.gridArea = '7 / 5 / 8 / 6';  // GK
+    play[1].style.gridArea = '6 / 3 / 7 / 4';  // CB
+    play[2].style.gridArea = '6 / 5 / 7 / 6';  // CB
+    play[3].style.gridArea = '6 / 7 / 7 / 8';  // CB
+    play[4].style.gridArea = '4 / 9 / 5 / 10';  // LM
+    play[5].style.gridArea = '4 / 7 / 5 / 8';  // CM
+    play[6].style.gridArea = '4 / 5 / 5 / 6';  // RM
+    play[7].style.gridArea = '4 / 3 / 5 / 4';  // LF
+    play[8].style.gridArea = '4 / 1 / 5 / 2';  // RF
+    play[9].style.gridArea = '2 / 4 / 3 / 5';  // ST
+    play[10].style.gridArea = '2 / 6 / 3 / 7';
   }
-});
+}
 
+// Appliquer la fonction lors de la sélection d'une formation
+formationSelect.addEventListener('change', (e) => {
+  changeFormation(e.target.value);
+});
