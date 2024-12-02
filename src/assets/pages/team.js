@@ -1,68 +1,66 @@
-let drag = null;  // To store the dragged element
+let drag = null;  
 
-// Get all player positions in the squad and player cards
+
 let p = document.querySelectorAll('.player');
-let players = document.querySelectorAll(".card"); // These are the draggable player cards
+let players = document.querySelectorAll(".card"); 
 
-// Make each card draggable
+
 let allCards = document.querySelectorAll('.card');
 allCards.forEach(card => {
     card.addEventListener('dragstart', function (e) {
-        drag = e.target;  // Store the dragged element
+        drag = e.target;  
         e.dataTransfer.setData("text", drag.outerHTML);
     });
     card.addEventListener('dragend', function () {
-        drag = null;  // Reset when the drag ends
+        drag = null; 
     });
 });
 
-// Allow each position on the squad to accept the dragged card
+
 p.forEach(player => {
     player.addEventListener('dragover', function (e) {
-        e.preventDefault();  // Allow dropping by preventing the default behavior
-    // On vérifie si la position est valide pour le joueur
+        e.preventDefault();  
     let validDrop = false;
-    const position = player.getAttribute("data-position"); // Récupérer la position de la case
+    const position = player.getAttribute("data-position"); 
     const draggedCardPosition = drag ? drag.querySelector(".position").innerText : "";
 
-    // Si la position du joueur correspond à la position de la carte
+ 
     if (position === draggedCardPosition) {
         validDrop = true;
     }
 
-    // Appliquer un style en fonction de la validité du drop
+   
     player.style.border = validDrop ? "3px solid green" : "3px solid red";
 });
 
 player.addEventListener('dragleave', function () {
-    // Réinitialiser la couleur de la bordure quand le drag quitte la zone
+    
     player.style.border = "";
 });
 
 player.addEventListener('drop', function () {
-    // Quand un joueur dépose une carte
+   
     let validDrop = false;
-    const position = player.getAttribute("data-position");  // Position de la case
+    const position = player.getAttribute("data-position");  
     const draggedCardPosition = drag ? drag.querySelector(".position").innerText : "";
 
-    // Vérifier si la position du joueur est valide
+   
     if (position === draggedCardPosition) {
         validDrop = true;
     }
 
-    // Si le drop est valide, ajouter la carte à cette position
+    
     if (validDrop) {
-        let droppedCard = drag.cloneNode(true);  // Clone la carte déplacée
-        player.innerHTML = '';  // Vide la case
-        player.appendChild(droppedCard);  // Ajoute la carte à la position
-
-        drag.style.display = 'none';  // Masque la carte dans le pool (optionnel)
+        let droppedCard = drag.cloneNode(true); 
+        player.innerHTML = '';  
+        player.appendChild(droppedCard); 
+        drag.style.display = 'none';  
     } else {
-        // Si le drop est invalide, remettre la carte à sa place d'origine
-        drag.style.display = '';  // Réafficher la carte originale si elle doit revenir
+        
+        drag.style.display = '';  
     }
 
-    // Réinitialiser la couleur de la bordure à la fin
+    
     player.style.border = "";
 });
 });
@@ -178,7 +176,7 @@ player.addEventListener('drop', function () {
 //     document.removeEventListener('mousemove', mouseMove);
 // }
 
-
+// le modal, l'ajout des joueurs, la forme de validation
 
 let toggle = document.getElementById("toggle-modal-btn");
 toggle.addEventListener("click", function(){
@@ -195,10 +193,76 @@ closeBtn.addEventListener("click", function(){
     crud_modal.style = "display: none";
 });
 
+// Récupère le champ de sélection de position dans le modal
+let positionSelect = document.getElementById("position");
 
+// Ajoute un événement pour quand la position change
+positionSelect.addEventListener('change', function () {
+    const selectedPosition = positionSelect.value;
 
-let ajouterJoueur= document.getElementById("ajouter-joueur");
-ajouterJoueur.addEventListener("click", function(){
+    // Récupère les champs de statistiques du modal
+    const paceField = document.getElementById("pace");
+    const shootingField = document.getElementById("shooting");
+    const passingField = document.getElementById("passing");
+    const dribblingField = document.getElementById("dribbling");
+    const defendingField = document.getElementById("defending");
+    const physicalField = document.getElementById("physical");
+
+    // Vérifie si la position est "GK" (Gardien de but)
+    if (selectedPosition === "GK") {
+        // Si la position est GK, remplace les statistiques par celles spécifiques aux gardiens
+        paceField.disabled = true;
+        shootingField.disabled = true;
+        passingField.disabled = true;
+        dribblingField.disabled = true;
+        defendingField.disabled = false;  // Gardien a des statistiques de défense spécifiques
+        physicalField.disabled = false;  // Gardien a des statistiques physiques
+
+        // Remplacer les valeurs par défaut par celles des gardiens
+        paceField.value = "";  // Laisser vide car non applicable au GK
+        shootingField.value = "";  // Laisser vide
+        passingField.value = "";  // Laisser vide
+        dribblingField.value = "";  // Laisser vide
+        defendingField.value = "";  // Laisser vide ou valeur par défaut
+        physicalField.value = "";  // Laisser vide ou valeur par défaut
+
+        // Modifier les placeholders des champs
+        paceField.placeholder = "Pace (Non applicable)";
+        shootingField.placeholder = "Shooting (Non applicable)";
+        passingField.placeholder = "Passing (Non applicable)";
+        dribblingField.placeholder = "Dribbling (Non applicable)";
+        defendingField.placeholder = "Defending (GK)";
+        physicalField.placeholder = "Physical (GK)";
+    } else {
+        // Si la position est autre que GK, rétablit les statistiques normales pour les joueurs de champ
+        paceField.disabled = false;
+        shootingField.disabled = false;
+        passingField.disabled = false;
+        dribblingField.disabled = false;
+        defendingField.disabled = false;
+        physicalField.disabled = false;
+
+        // Rétablir les valeurs par défaut pour les joueurs de champ
+        paceField.value = "0";  // Remet à 0 si nécessaire
+        shootingField.value = "0";  // Remet à 0 si nécessaire
+        passingField.value = "0";  // Remet à 0 si nécessaire
+        dribblingField.value = "0";  // Remet à 0 si nécessaire
+        defendingField.value = "0";  // Remet à 0 si nécessaire
+        physicalField.value = "0";  // Remet à 0 si nécessaire
+
+        // Rétablir les placeholders des joueurs de champ
+        paceField.placeholder = "Pace";
+        shootingField.placeholder = "Shooting";
+        passingField.placeholder = "Passing";
+        dribblingField.placeholder = "Dribbling";
+        defendingField.placeholder = "Defending";
+        physicalField.placeholder = "Physical";
+    }
+});
+
+// Ajout de la carte avec validation des données
+let ajouterJoueur = document.getElementById("ajouter-joueur");
+ajouterJoueur.addEventListener("click", function () {
     const image_joueur = document.getElementById("image-joueur").files[0];
     let imageUrl = '';
     if (image_joueur) {
@@ -221,65 +285,70 @@ ajouterJoueur.addEventListener("click", function(){
 
     // VALIDATION DES DONNEES
     if (!['GK', 'LB', 'CB', 'RB', 'CM', 'LW', 'RW', 'ST'].includes(position)) {
-      alert("Position invalide. Elle doit être l'une des suivantes : GK, LB, CB, RB, CM, LW, RW, ST.");
-      return;
-  }
+        alert("Position invalide. Elle doit être l'une des suivantes : GK, LB, CB, RB, CM, LW, RW, ST.");
+        return;
+    }
+
     // Validation des statistiques (0 <= stat <= 99)
     const stats = [rating, pace, shooting, passing, dribbling, defending, physical];
-    for (let stat of stats) {
-      if (stat < 0 || stat > 99) {
-          alert("Les statistiques doivent être comprises entre 0 et 99.");
-          return;
-      }
-  }
+    if (position === "GK") {
+        // Validation pour le gardien de but
+        if (pace > 0 || shooting > 0 || passing > 0 || dribbling > 0) {
+            alert("Les statistiques de gardien de but doivent avoir uniquement des valeurs pour 'Defending' et 'Physical'.");
+            return;
+        }
+    } else {
+        // Validation classique pour les joueurs de champ
+        for (let stat of stats) {
+            if (stat < 0 || stat > 99) {
+                alert("Les statistiques doivent être comprises entre 0 et 99.");
+                return;
+            }
+        }
+    }
 
-  // Validation du nom du joueur (obligatoire)
-  if (!nom) {
-    alert("Le nom du joueur est obligatoire.");
-    return;
-}
-
+    // Ajouter la carte avec les données
     const blkdiv = document.getElementById("card");
     blkdiv.insertAdjacentHTML("beforeend", `
-                                               <div dragable="true" id="joueur"  class ="card" >
-                            <div class ="first-section">
-                            <div class ="position-rating">
-                                <h1 class ="rating">${rating}</h1>
-                                <h1 class ="position">${position}</h1>
-                                <img src=${club_logo} alt="club">
-                            </div>
-                            <div class ="image-name">
-                            <img src=${image_joueur} alt="">
-                            <h1 class="nom">${nom}</h1>
-                            </div>
-                            </div>
-                           <div class ="informations">
-                              <div class ="first">
-                                 <h1>${pace}PAC</h1>
-                                 <h1>${shooting}SHO</h1>
-                                 <h1>${passing}PAS</h1>
-                              </div>
-                           <div class ="second">
-                                 <h1>${dribbling}DRI</h1>
-                                 <h1>${defending}DEF</h1>
-                                 <h1>${physical}PHY</h1>
-                           </div>
-                          </div>
-                        </div>
-                                            `
-        )
-        
-        document.getElementById("name").value;
-        document.getElementById("rating").value;
-        document.getElementById("position").value;
-        document.getElementById("pace").value;
-        document.getElementById("shooting").value;
-        document.getElementById("passing").value;
-        document.getElementById("dribbling").value;
-        document.getElementById("defending").value;
-        document.getElementById("physical").value;
+        <div draggable="true" id="joueur" class="card">
+            <div class="first-section">
+                <div class="position-rating">
+                    <h1 class="rating">${rating}</h1>
+                    <h1 class="position">${position}</h1>
+                    <img src=${logoUrl} alt="club">
+                </div>
+                <div class="image-name">
+                    <img src=${imageUrl} alt="">
+                    <h1 class="nom">${nom}</h1>
+                </div>
+            </div>
+            <div class="informations">
+                <div class="first">
+                    <h1>${pace}PAC</h1>
+                    <h1>${shooting}SHO</h1>
+                    <h1>${passing}PAS</h1>
+                </div>
+                <div class="second">
+                    <h1>${dribbling}DRI</h1>
+                    <h1>${defending}DEF</h1>
+                    <h1>${physical}PHY</h1>
+                </div>
+            </div>
+        </div>
+    `);
 
+    // Réinitialiser les valeurs des champs après l'ajout
+    document.getElementById("name").value = "";
+    document.getElementById("rating").value = "";
+    document.getElementById("position").value = "";
+    document.getElementById("pace").value = "";
+    document.getElementById("shooting").value = "";
+    document.getElementById("passing").value = "";
+    document.getElementById("dribbling").value = "";
+    document.getElementById("defending").value = "";
+    document.getElementById("physical").value = "";
 });
+
 
 
 
@@ -363,15 +432,15 @@ ajouterJoueur.addEventListener("click", function(){
 }
 
 
-// Récupérer le sélecteur de formation et les joueurs
+
 const formationSelect = document.getElementById('formation-select');
 const play = document.querySelectorAll('.player');
 
-// Fonction pour changer les positions des joueurs selon la formation
+
 function changeFormation(formation) {
-  // Réinitialiser les positions des joueurs avant de les modifier
+  
   play.forEach(player => {
-    player.style.gridArea = '';  // Réinitialiser les positions
+    player.style.gridArea = ''; 
   });
 
   if (formation === '4-3-3') {
@@ -416,7 +485,7 @@ function changeFormation(formation) {
   }
 }
 
-// Appliquer la fonction lors de la sélection d'une formation
+
 formationSelect.addEventListener('change', (e) => {
   changeFormation(e.target.value);
 });
