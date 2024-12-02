@@ -49,10 +49,10 @@ div {
 }
 .squad_builder {
     display: grid;
-    height: 900px;
+    height: 850px;
     place-items: center;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(7, 1fr);
+    grid-template-rows: repeat(7 , 1fr);
     grid-column-gap: 10px;
     grid-row-gap: 10px;
     overflow: hidden;
@@ -62,7 +62,7 @@ div {
 .player {
     text-align: center;
     padding: 10px;
-    background-color: #ffcc00;
+    /* background-color: #ffcc00; */
     border-radius: 10px;
 }
 

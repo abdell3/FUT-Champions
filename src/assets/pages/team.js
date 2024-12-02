@@ -215,8 +215,8 @@ positionSelect.addEventListener('change', function () {
         shootingField.disabled = true;
         passingField.disabled = true;
         dribblingField.disabled = true;
-        defendingField.disabled = false;  // Gardien a des statistiques de défense spécifiques
-        physicalField.disabled = false;  // Gardien a des statistiques physiques
+        defendingField.disabled = true;  // Gardien a des statistiques de défense spécifiques
+        physicalField.disabled = true;  // Gardien a des statistiques physiques
 
         // Remplacer les valeurs par défaut par celles des gardiens
         paceField.value = "";  // Laisser vide car non applicable au GK
@@ -231,8 +231,8 @@ positionSelect.addEventListener('change', function () {
         shootingField.placeholder = "Shooting (Non applicable)";
         passingField.placeholder = "Passing (Non applicable)";
         dribblingField.placeholder = "Dribbling (Non applicable)";
-        defendingField.placeholder = "Defending (GK)";
-        physicalField.placeholder = "Physical (GK)";
+        defendingField.placeholder = "Defending (Non applicable)";
+        physicalField.placeholder = "Physical (Non applicable)";
     } else {
         // Si la position est autre que GK, rétablit les statistiques normales pour les joueurs de champ
         paceField.disabled = false;
