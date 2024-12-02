@@ -58,21 +58,12 @@ div {
     overflow: hidden;
     position: relative;
 }
-#equipe {
-    position: relative; /* Position relative pour permettre le positionnement absolu des éléments en déplacement */
-    overflow: hidden; /* Empêche le débordement des éléments de l'équipe */
-}
 
 .player {
     text-align: center;
     padding: 10px;
     background-color: #ffcc00;
     border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.card {
-    cursor: pointer;  /* Change le curseur pour indiquer que l'élément est draggable */
 }
 
 .player.dragging {
