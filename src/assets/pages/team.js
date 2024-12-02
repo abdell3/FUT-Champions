@@ -1,11 +1,14 @@
+// drag and drop
+
+
 let drag = null;  
 
 
 let p = document.querySelectorAll('.player');
-let players = document.querySelectorAll(".card"); 
+let players = document.querySelectorAll("#card"); 
 
 
-let allCards = document.querySelectorAll('.card');
+let allCards = document.querySelectorAll('#card');
 allCards.forEach(card => {
     card.addEventListener('dragstart', function (e) {
         drag = e.target;  
@@ -64,117 +67,7 @@ player.addEventListener('drop', function () {
     player.style.border = "";
 });
 });
-// function dragItem() {
-//   let players = document.querySelectorAll('.joueur');
-//   players.forEach(player => {
 
-//     player.addEventListener('dragstart', function (e) {
-//       drag = player;
-//       player.style.opacity = '0.5';
-//       console.log('dragstart', drag);
-//       console.log(player);
-//       console.log('e.target');
-//     })
-
-//     player.addEventListener('dragend', function (e) {
-//       drag = null;
-//       player.style.opacity = '1';
-//       console.log('dragend', player);
-//       console.log(player);
-//       console.log('e.target');
-//     })
-//     p.forEach(player => {
-//       player.addEventListener('dragover', function (e) {
-//         e.preventDefault();
-
-//         console.log('dragover');
-//         // this.style.background = '#090';
-//       })
-
-//       player.addEventListener('dragleave', function () {
-//         // this.style.background = '##333';
-//       })
-
-//       player.addEventListener('drop', function () {
-//         console.log('drop', this)
-//         drag.className = 'joueur';
-//         this.appendChild(drag);
-//       })
-
-
-//     })
-
-//   })
-
-// };
-
-
-
-// let players = document.querySelectorAll('.player');
-// let drag=null;
-
-
-
-// function dragItem(){
-//     let items=document.querySelectorAll('.player');
-//     items.forEach(player=>{
-//         player.addEventListener('dragstart',function(){
-//             drag = player;
-//             player.style.opacity = '0.5';
-//         })
-
-//         player.addEventListener('dragend',function(){
-//             drag = null;
-//             player.style.opacity = '1';
-//         })
-
-//         players.forEach(player=>{
-//             player.addEventListener('dragover', function(){
-//                 console.log('drag over');
-//             })
-//             player.addEventListener('drop', function(){
-//                 player.append(drag);
-//             })
-    
-//         })
-        
-        
-
-
-//       })
-// }
-// let newX = 0, newY = 0, startX = 0, startY = 0 ;
-
-// const card = document.getElementById('card');
-
-// card.addEventListener('mousedown', mouseDown)
-
-// function mouseDown(e){
-//     startX = e.joueurX;
-//     startY = e.joueurY;
-
-//     document.addEventListener('mousemove', mouseMove)
-//     document.addEventListener('mouseup', mouseUp)
-// }
-
-// function mouseMove(e){
-//     newX = startX - e.joueurX;
-//     newY = startY - e.joueurY;
-
-//     startX = e.joueurX;
-//     startY = e.joueurY;
-
-//     card.style.top = (card.offsetTop - newY) + 'px';
-//     card.style.left = (card.offsetLeft - newX) + 'px';
-
-//     console.log({newX, newY});
-//     console.log({startX, startY});
-
-// }
-
-// function mouseUp(e){
-//     document.removeEventListener('mousemove', mouseMove);
-// }
 
 // le modal, l'ajout des joueurs, la forme de validation
 
@@ -348,7 +241,7 @@ ajouterJoueur.addEventListener("click", function () {
 
     const blkdiv = document.getElementById("card");
     if (position === "GK") {
-        // Affichage des statistiques spécifiques aux gardiens de but
+        
         blkdiv.insertAdjacentHTML("beforeend", `
             <div draggable="true" id=${sup} class="card">
                 <div class="first-section">
@@ -378,7 +271,7 @@ ajouterJoueur.addEventListener("click", function () {
             </div>
         `);
     } else {
-        // Affichage des statistiques pour les autres joueurs
+        
         blkdiv.insertAdjacentHTML("beforeend", `
             <div draggable="true" id=${sup} class="card">
                 <div class="first-section">
@@ -412,12 +305,8 @@ ajouterJoueur.addEventListener("click", function () {
     document.getElementById("crud-modal").style = "display:none";
 });
 
-// function deleteCard(card) {
-//     const cardElement = document.getElementById(card);
-//     cardElement.remove();
-// }
 
-
+// fetch de data d'apres JSON
 
     fetch("../pages/players.json")
       .then((response) => response.json())
@@ -498,7 +387,7 @@ ajouterJoueur.addEventListener("click", function () {
 
 }
 
-
+// le changement de la position 
 
 const formationSelect = document.getElementById('formation-select');
 const play = document.querySelectorAll('.player');
@@ -557,7 +446,7 @@ formationSelect.addEventListener('change', (e) => {
   changeFormation(e.target.value);
 });
 
-// delete 
+// delete du card ajouter
 function deleteCard(card){
     card.remove();
 }
