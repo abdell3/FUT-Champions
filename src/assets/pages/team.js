@@ -181,11 +181,8 @@ player.addEventListener('drop', function () {
 let toggle = document.getElementById("toggle-modal-btn");
 toggle.addEventListener("click", function(){
    var crud = document.getElementById("crud-modal");
-   crud.style = "display:block;"
+   crud.style = "display:block;";
 });
-
-var cont = 3;
-var cint = 0;
 
 let closeBtn = document.getElementById("cancel-btn");
 closeBtn.addEventListener("click", function(){
@@ -193,14 +190,12 @@ closeBtn.addEventListener("click", function(){
     crud_modal.style = "display: none";
 });
 
-// Récupère le champ de sélection de position dans le modal
 let positionSelect = document.getElementById("position");
 
-// Ajoute un événement pour quand la position change
 positionSelect.addEventListener('change', function () {
     const selectedPosition = positionSelect.value;
 
-    // Récupère les champs de statistiques du modal
+    // Champs pour les autres joueurs (ST, RW, etc.)
     const paceField = document.getElementById("pace");
     const shootingField = document.getElementById("shooting");
     const passingField = document.getElementById("passing");
@@ -208,33 +203,54 @@ positionSelect.addEventListener('change', function () {
     const defendingField = document.getElementById("defending");
     const physicalField = document.getElementById("physical");
 
-    // Vérifie si la position est "GK" (Gardien de but)
+    // Champs spécifiques aux gardiens de but (GK)
+    const divingField = document.getElementById("diving");
+    const handlingField = document.getElementById("handling");
+    const kickingField = document.getElementById("kicking");
+    const reflexesField = document.getElementById("reflexes");
+    const speedField = document.getElementById("speed");
+    const positioningField = document.getElementById("positioning");
+
     if (selectedPosition === "GK") {
-        // Si la position est GK, remplace les statistiques par celles spécifiques aux gardiens
+        // Désactiver les champs spécifiques aux joueurs
         paceField.disabled = true;
         shootingField.disabled = true;
         passingField.disabled = true;
         dribblingField.disabled = true;
-        defendingField.disabled = true;  // Gardien a des statistiques de défense spécifiques
-        physicalField.disabled = true;  // Gardien a des statistiques physiques
+        defendingField.disabled = true;
+        physicalField.disabled = true;
 
-        // Remplacer les valeurs par défaut par celles des gardiens
-        paceField.value = "";  // Laisser vide car non applicable au GK
-        shootingField.value = "";  // Laisser vide
-        passingField.value = "";  // Laisser vide
-        dribblingField.value = "";  // Laisser vide
-        defendingField.value = "";  // Laisser vide ou valeur par défaut
-        physicalField.value = "";  // Laisser vide ou valeur par défaut
+        paceField.value = "";
+        shootingField.value = "";
+        passingField.value = "";
+        dribblingField.value = "";
+        defendingField.value = "";
+        physicalField.value = "";
 
-        // Modifier les placeholders des champs
         paceField.placeholder = "Pace (Non applicable)";
         shootingField.placeholder = "Shooting (Non applicable)";
         passingField.placeholder = "Passing (Non applicable)";
         dribblingField.placeholder = "Dribbling (Non applicable)";
         defendingField.placeholder = "Defending (Non applicable)";
         physicalField.placeholder = "Physical (Non applicable)";
+
+        // Activer les champs spécifiques au GK
+        divingField.disabled = false;
+        handlingField.disabled = false;
+        kickingField.disabled = false;
+        reflexesField.disabled = false;
+        speedField.disabled = false;
+        positioningField.disabled = false;
+
+        divingField.placeholder = "Diving";
+        handlingField.placeholder = "Handling";
+        kickingField.placeholder = "Kicking";
+        reflexesField.placeholder = "Reflexes";
+        speedField.placeholder = "Speed";
+        positioningField.placeholder = "Positioning";
+
     } else {
-        // Si la position est autre que GK, rétablit les statistiques normales pour les joueurs de champ
+        // Activer les champs spécifiques aux joueurs (ST, RW, etc.)
         paceField.disabled = false;
         shootingField.disabled = false;
         passingField.disabled = false;
@@ -242,25 +258,44 @@ positionSelect.addEventListener('change', function () {
         defendingField.disabled = false;
         physicalField.disabled = false;
 
-        // Rétablir les valeurs par défaut pour les joueurs de champ
-        paceField.value = "0";  // Remet à 0 si nécessaire
-        shootingField.value = "0";  // Remet à 0 si nécessaire
-        passingField.value = "0";  // Remet à 0 si nécessaire
-        dribblingField.value = "0";  // Remet à 0 si nécessaire
-        defendingField.value = "0";  // Remet à 0 si nécessaire
-        physicalField.value = "0";  // Remet à 0 si nécessaire
+        paceField.value = "0";
+        shootingField.value = "0";
+        passingField.value = "0";
+        dribblingField.value = "0";
+        defendingField.value = "0";
+        physicalField.value = "0";
 
-        // Rétablir les placeholders des joueurs de champ
         paceField.placeholder = "Pace";
         shootingField.placeholder = "Shooting";
         passingField.placeholder = "Passing";
         dribblingField.placeholder = "Dribbling";
         defendingField.placeholder = "Defending";
         physicalField.placeholder = "Physical";
+
+        // Désactiver les champs spécifiques au GK
+        divingField.disabled = true;
+        handlingField.disabled = true;
+        kickingField.disabled = true;
+        reflexesField.disabled = true;
+        speedField.disabled = true;
+        positioningField.disabled = true;
+
+        divingField.value = "";
+        handlingField.value = "";
+        kickingField.value = "";
+        reflexesField.value = "";
+        speedField.value = "";
+        positioningField.value = "";
+
+        divingField.placeholder = "Diving (Non applicable)";
+        handlingField.placeholder = "Handling (Non applicable)";
+        kickingField.placeholder = "Kicking (Non applicable)";
+        reflexesField.placeholder = "Reflexes (Non applicable)";
+        speedField.placeholder = "Speed (Non applicable)";
+        positioningField.placeholder = "Positioning (Non applicable)";
     }
 });
 
-// Ajout de la carte avec validation des données
 let ajouterJoueur = document.getElementById("ajouter-joueur");
 ajouterJoueur.addEventListener("click", function () {
     const image_joueur = document.getElementById("image-joueur").files[0];
@@ -274,6 +309,7 @@ ajouterJoueur.addEventListener("click", function () {
         logoUrl = URL.createObjectURL(club_logo);
     }
     const nom = document.getElementById("name").value;
+    const sup = nom.split(' ').join('');
     const rating = document.getElementById("rating").value;
     const position = document.getElementById("position").value;
     const pace = document.getElementById("pace").value;
@@ -282,23 +318,26 @@ ajouterJoueur.addEventListener("click", function () {
     const dribbling = document.getElementById("dribbling").value;
     const defending = document.getElementById("defending").value;
     const physical = document.getElementById("physical").value;
+    const diving = document.getElementById("diving").value;
+    const handling = document.getElementById("handling").value;
+    const kicking = document.getElementById("kicking").value;
+    const reflexes = document.getElementById("reflexes").value;
+    const speed = document.getElementById("speed").value;
+    const positioning = document.getElementById("positioning").value;
 
-    // VALIDATION DES DONNEES
+    // Validation de la position
     if (!['GK', 'LB', 'CB', 'RB', 'CM', 'LW', 'RW', 'ST'].includes(position)) {
         alert("Position invalide. Elle doit être l'une des suivantes : GK, LB, CB, RB, CM, LW, RW, ST.");
         return;
     }
 
-    // Validation des statistiques (0 <= stat <= 99)
     const stats = [rating, pace, shooting, passing, dribbling, defending, physical];
     if (position === "GK") {
-        // Validation pour le gardien de but
         if (pace > 0 || shooting > 0 || passing > 0 || dribbling > 0) {
             alert("Les statistiques de gardien de but doivent avoir uniquement des valeurs pour 'Defending' et 'Physical'.");
             return;
         }
     } else {
-        // Validation classique pour les joueurs de champ
         for (let stat of stats) {
             if (stat < 0 || stat > 99) {
                 alert("Les statistiques doivent être comprises entre 0 et 99.");
@@ -307,48 +346,76 @@ ajouterJoueur.addEventListener("click", function () {
         }
     }
 
-    // Ajouter la carte avec les données
     const blkdiv = document.getElementById("card");
-    blkdiv.insertAdjacentHTML("beforeend", `
-        <div draggable="true" id="joueur" class="card">
-            <div class="first-section">
-                <div class="position-rating">
-                    <h1 class="rating">${rating}</h1>
-                    <h1 class="position">${position}</h1>
-                    <img src=${logoUrl} alt="club">
+    if (position === "GK") {
+        // Affichage des statistiques spécifiques aux gardiens de but
+        blkdiv.insertAdjacentHTML("beforeend", `
+            <div draggable="true" id=${sup} class="card">
+                <div class="first-section">
+                    <div class="position-rating">
+                        <h1 class="rating">${rating}</h1>
+                        <h1 class="position">${position}</h1>
+                        <img src=${logoUrl} alt="club">
+                    </div>
+                    <div class="image-name">
+                        <img src=${imageUrl} alt="">
+                        <h1 class="nom">${nom}</h1>
+                    </div>
                 </div>
-                <div class="image-name">
-                    <img src=${imageUrl} alt="">
-                    <h1 class="nom">${nom}</h1>
+                <div class="informations">
+                    <div class="first">
+                        <h1>${reflexes}REF</h1>
+                        <h1>${speed}SPE</h1>
+                        <h1>${handling}HAN</h1>
+                    </div>
+                    <div class="second">
+                        <h1>${diving}DIV</h1>
+                        <h1>${kicking}KIC</h1>
+                        <h1>${positioning}POS</h1>
+                    </div>
                 </div>
+                <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded-full" onclick="deleteCard(${sup})">Delete</button>
             </div>
-            <div class="informations">
-                <div class="first">
-                    <h1>${pace}PAC</h1>
-                    <h1>${shooting}SHO</h1>
-                    <h1>${passing}PAS</h1>
+        `);
+    } else {
+        // Affichage des statistiques pour les autres joueurs
+        blkdiv.insertAdjacentHTML("beforeend", `
+            <div draggable="true" id=${sup} class="card">
+                <div class="first-section">
+                    <div class="position-rating">
+                        <h1 class="rating">${rating}</h1>
+                        <h1 class="position">${position}</h1>
+                        <img src=${logoUrl} alt="club">
+                    </div>
+                    <div class="image-name">
+                        <img src=${imageUrl} alt="">
+                        <h1 class="nom">${nom}</h1>
+                    </div>
                 </div>
-                <div class="second">
-                    <h1>${dribbling}DRI</h1>
-                    <h1>${defending}DEF</h1>
-                    <h1>${physical}PHY</h1>
+                <div class="informations">
+                    <div class="first">
+                        <h1>${pace}PAC</h1>
+                        <h1>${shooting}SHO</h1>
+                        <h1>${passing}PAS</h1>
+                    </div>
+                    <div class="second">
+                        <h1>${dribbling}DRI</h1>
+                        <h1>${defending}DEF</h1>
+                        <h1>${physical}PHY</h1>
+                    </div>
                 </div>
+                <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded-full" onclick="deleteCard(${sup})">Delete</button>
             </div>
-        </div>
-    `);
+        `);
+    }
 
-    // Réinitialiser les valeurs des champs après l'ajout
-    document.getElementById("name").value = "";
-    document.getElementById("rating").value = "";
-    document.getElementById("position").value = "";
-    document.getElementById("pace").value = "";
-    document.getElementById("shooting").value = "";
-    document.getElementById("passing").value = "";
-    document.getElementById("dribbling").value = "";
-    document.getElementById("defending").value = "";
-    document.getElementById("physical").value = "";
+    document.getElementById("crud-modal").style = "display:none";
 });
 
+// function deleteCard(card) {
+//     const cardElement = document.getElementById(card);
+//     cardElement.remove();
+// }
 
 
 
@@ -445,42 +512,42 @@ function changeFormation(formation) {
 
   if (formation === '4-3-3') {
     // Formation 4-3-3
-    play[0].style.gridArea = '7 / 4 / 8 / 5';  // GK
-    play[1].style.gridArea = '5 / 7 / 6 / 8';  // RB
-    play[2].style.gridArea = '5 / 5 / 6 / 6';  // CB
-    play[3].style.gridArea = '5 / 3 / 6 / 4';  // CB
-    play[4].style.gridArea = '5 / 1 / 6 / 2';  // RB
-    play[5].style.gridArea = '3 / 6 / 4 / 7';  // CM
-    play[6].style.gridArea = '3 / 4 / 4 / 5';  // CM
-    play[7].style.gridArea = '3 / 2 / 4 / 3';  // CM
-    play[8].style.gridArea = '1 / 6 / 2 / 7';  // LW
-    play[9].style.gridArea = '1 / 4 / 2 / 5';  // ST
-    play[10].style.gridArea = '1 / 2 / 2 / 3'; // RW
+    play[0].style.gridArea = '7 / 4 / 8 / 5';
+    play[1].style.gridArea = '5 / 7 / 6 / 8';
+    play[2].style.gridArea = '5 / 5 / 6 / 6';
+    play[3].style.gridArea = '5 / 3 / 6 / 4';
+    play[4].style.gridArea = '5 / 1 / 6 / 2';
+    play[5].style.gridArea = '3 / 6 / 4 / 7';
+    play[6].style.gridArea = '3 / 4 / 4 / 5';
+    play[7].style.gridArea = '3 / 2 / 4 / 3';
+    play[8].style.gridArea = '1 / 6 / 2 / 7';
+    play[9].style.gridArea = '1 / 4 / 2 / 5';
+    play[10].style.gridArea = '1 / 2 / 2 / 3'
   } else if (formation === '4-4-2') {
     // Formation 4-4-2
-    play[0].style.gridArea = '7 / 4 / 8 / 5';  // GK
-    play[1].style.gridArea = '5 / 7 / 6 / 8';  // LB
-    play[2].style.gridArea = '5 / 5 / 6 / 6';  // CB
-    play[3].style.gridArea = '5 / 3 / 6 / 4';  // CB
-    play[4].style.gridArea = '5 / 1 / 6 / 2';  // RB
-    play[5].style.gridArea = '3 / 1 / 4 / 2';  // LM
-    play[6].style.gridArea = '3 / 3 / 4 / 4';  // CM
-    play[7].style.gridArea = '3 / 5 / 4 / 6';  // RM
-    play[8].style.gridArea = '3 / 7 / 4 / 8';  // LF
-    play[9].style.gridArea = '1 / 5 / 2 / 6';  // RF
-    play[10].style.gridArea = '1 / 3 / 2 / 4'; // st
+    play[0].style.gridArea = '7 / 4 / 8 / 5';
+    play[1].style.gridArea = '5 / 7 / 6 / 8';
+    play[2].style.gridArea = '5 / 5 / 6 / 6';
+    play[3].style.gridArea = '5 / 3 / 6 / 4';
+    play[4].style.gridArea = '5 / 1 / 6 / 2';
+    play[5].style.gridArea = '3 / 1 / 4 / 2';
+    play[6].style.gridArea = '3 / 3 / 4 / 4';
+    play[7].style.gridArea = '3 / 5 / 4 / 6';
+    play[8].style.gridArea = '3 / 7 / 4 / 8';
+    play[9].style.gridArea = '1 / 5 / 2 / 6';
+    play[10].style.gridArea = '1 / 3 / 2 / 4'
   } else if (formation === '3-5-2') {
     // Formation 3-5-2
-    play[0].style.gridArea = '7 / 5 / 8 / 6';  // GK
-    play[1].style.gridArea = '6 / 3 / 7 / 4';  // CB
-    play[2].style.gridArea = '6 / 5 / 7 / 6';  // CB
-    play[3].style.gridArea = '6 / 7 / 7 / 8';  // CB
-    play[4].style.gridArea = '4 / 9 / 5 / 10';  // LM
-    play[5].style.gridArea = '4 / 7 / 5 / 8';  // CM
-    play[6].style.gridArea = '4 / 5 / 5 / 6';  // RM
-    play[7].style.gridArea = '4 / 3 / 5 / 4';  // LF
-    play[8].style.gridArea = '4 / 1 / 5 / 2';  // RF
-    play[9].style.gridArea = '2 / 4 / 3 / 5';  // ST
+    play[0].style.gridArea = '7 / 5 / 8 / 6';
+    play[1].style.gridArea = '6 / 3 / 7 / 4';
+    play[2].style.gridArea = '6 / 5 / 7 / 6';
+    play[3].style.gridArea = '6 / 7 / 7 / 8';
+    play[4].style.gridArea = '4 / 9 / 5 / 10';
+    play[5].style.gridArea = '4 / 7 / 5 / 8';
+    play[6].style.gridArea = '4 / 5 / 5 / 6';
+    play[7].style.gridArea = '4 / 3 / 5 / 4';
+    play[8].style.gridArea = '4 / 1 / 5 / 2';
+    play[9].style.gridArea = '2 / 4 / 3 / 5';
     play[10].style.gridArea = '2 / 6 / 3 / 7';
   }
 }
@@ -489,3 +556,8 @@ function changeFormation(formation) {
 formationSelect.addEventListener('change', (e) => {
   changeFormation(e.target.value);
 });
+
+// delete 
+function deleteCard(card){
+    card.remove();
+}
