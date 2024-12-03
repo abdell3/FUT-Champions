@@ -5,9 +5,6 @@ let drag = null;
 
 
 let p = document.querySelectorAll('.player');
-let players = document.querySelectorAll("#card"); 
-
-
 let allCards = document.querySelectorAll('#card');
 allCards.forEach(card => {
     card.addEventListener('dragstart', function (e) {
@@ -88,7 +85,7 @@ let positionSelect = document.getElementById("position");
 positionSelect.addEventListener('change', function () {
     const selectedPosition = positionSelect.value;
 
-    // Champs pour les autres joueurs (ST, RW, etc.)
+    // autre
     const paceField = document.getElementById("pace");
     const shootingField = document.getElementById("shooting");
     const passingField = document.getElementById("passing");
@@ -96,7 +93,7 @@ positionSelect.addEventListener('change', function () {
     const defendingField = document.getElementById("defending");
     const physicalField = document.getElementById("physical");
 
-    // Champs spécifiques aux gardiens de but (GK)
+    //  (GK)
     const divingField = document.getElementById("diving");
     const handlingField = document.getElementById("handling");
     const kickingField = document.getElementById("kicking");
@@ -224,10 +221,10 @@ ajouterJoueur.addEventListener("click", function () {
         return;
     }
 
-    const stats = [rating, pace, shooting, passing, dribbling, defending, physical];
+    const stats = [positioning, kicking, diving, handling, speed, reflexes, rating, pace, shooting, passing, dribbling, defending, physical];
     if (position === "GK") {
-        if (pace > 0 || shooting > 0 || passing > 0 || dribbling > 0) {
-            alert("Les statistiques de gardien de but doivent avoir uniquement des valeurs pour 'Defending' et 'Physical'.");
+        if (reflexes > 0 || speed > 0 || handling > 0 || diving > 0 || kicking > 0 || positioning > 0) {
+            alert("Les statistiques de gardien de but doivent avoir uniquement des valeurs pour positif.");
             return;
         }
     } else {
@@ -239,10 +236,10 @@ ajouterJoueur.addEventListener("click", function () {
         }
     }
 
-    const blkdiv = document.getElementById("card");
+    const affichage = document.getElementById("card");
     if (position === "GK") {
         
-        blkdiv.insertAdjacentHTML("beforeend", `
+        affichage.insertAdjacentHTML("beforeend", `
             <div draggable="true" id=${sup} class="card">
                 <div class="first-section">
                     <div class="position-rating">
@@ -272,7 +269,7 @@ ajouterJoueur.addEventListener("click", function () {
         `);
     } else {
         
-        blkdiv.insertAdjacentHTML("beforeend", `
+        affichage.insertAdjacentHTML("beforeend", `
             <div draggable="true" id=${sup} class="card">
                 <div class="first-section">
                     <div class="position-rating">
