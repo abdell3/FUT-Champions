@@ -23,7 +23,7 @@ p.forEach(player => {
     let validDrop = false;
     const position = player.getAttribute("data-position"); 
     const draggedCardPosition = drag ? drag.querySelector(".position").innerText : "";
-
+    console.log(drag.querySelector(".position").innerText)
  
     if (position === draggedCardPosition) {
         validDrop = true;
@@ -43,6 +43,7 @@ player.addEventListener('drop', function () {
     let validDrop = false;
     const position = player.getAttribute("data-position");  
     const draggedCardPosition = drag ? drag.querySelector(".position").innerText : "";
+    console.log(draggedCardPosition);
 
    
     if (position === draggedCardPosition) {
@@ -383,6 +384,39 @@ ajouterJoueur.addEventListener("click", function () {
     })
 
 }
+
+// 4-4-2: [GK, LB, CB, CB, RB, LM, CM, CM, RM, ST, ST]
+// 4-3-3: [GK, LB, CB, CB, RB, CM, CM, CM, LW, ST, RW]
+// */
+
+
+const v = document.getElementById()
+
+
+function validateFormation(players, formationType) {
+    // Your code here
+}
+
+// Test cases
+const test442Players = [
+    { name: "Alisson", position: "GK" },
+    { name: "Robertson", position: "LB" },
+    { name: "Van Dijk", position: "CB" },
+    { name: "Konate", position: "CB" },
+    { name: "Alexander-Arnold", position: "RB" },
+    { name: "Diaz", position: "LM" },
+    { name: "Alisson", position: "GK" },
+    { name: "Robertson", position: "LB" },
+    { name: "Van Dijk", position: "CB" },
+    { name: "Konate", position: "CB" },
+    { name: "Alexander-Arnold", position: "RB" },
+    { name: "Diaz", position: "LM" },
+    { name: "Mac Allister", position: "CM" },
+    { name: "Szoboszlai", position: "CM" },
+    { name: "Salah", position: "RM" },
+    { name: "Núñez", position: "ST" },
+    { name: "Jota", position: "ST" }
+];
 
 // le changement de la position 
 
